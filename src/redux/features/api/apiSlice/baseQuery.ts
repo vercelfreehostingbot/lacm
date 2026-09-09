@@ -18,7 +18,7 @@ const rawBaseQuery = fetchBaseQuery({
     // Set per environment: an absolute URL in local development, and a
     // relative "/api/v1" wherever a proxy puts the API on the same origin
     // (Vercel rewrites, or Nginx on a self-hosted server).
-    baseUrl: import.meta.env.VITE_API_URL || '/api/v1',
+    baseUrl: import.meta.env.VITE_API_URL || 'https://clms-9fyx.onrender.com/api/v1',
     // Required so the httpOnly refresh_token cookie is sent to the API.
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {

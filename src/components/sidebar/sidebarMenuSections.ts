@@ -28,7 +28,7 @@ export const sidebarMenuSections = [
         items: [
             { label: "incomeReport", path: "/admin/income-report", icon: BarChart3 },
             { label: "expenseReport", path: "/admin/expense-report", icon: BarChart3 },
-            // { label: "summaryReport", path: "/dashboard/summary-report", icon: BarChart3 },
+            // { label: "summaryReport", path: "/admin/summary-report", icon: BarChart3 },
         ],
     },
     {

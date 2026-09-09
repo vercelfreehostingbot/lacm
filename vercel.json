@@ -1,11 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://clms-9fyx.onrender.com/api/:path*"
-    },
-    {
-      "source": "/(.*)",
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]

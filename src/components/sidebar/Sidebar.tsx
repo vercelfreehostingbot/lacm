@@ -23,7 +23,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
     const user = useAppSelector((state) => state.auth.user);
 
     // Auto-expand any group whose child matches the current route, so
-    // landing directly on e.g. /admin/accounts/income-vouchers
+    // landing directly on e.g. /dashboard/accounts/income-vouchers
     // (via refresh or a bookmark) shows the group already open instead
     // of hiding the active link inside a collapsed submenu.
     const [openGroup, setOpenGroup] = useState<string | null>(() => {
