@@ -1,8 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/admin",
-      "destination": "/dashboard"
+      "source": "/api/:path*",
+      "destination": "https://voucher-management-system-backend-production.up.railway.app/api/:path*"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
     }
   ]
 }

@@ -17,6 +17,10 @@ import GeneralSettingsPage from "../pages/dashboard/generalSettings/GeneralSetti
 
 export const router = createBrowserRouter([
     {
+        path: "/admin",
+        element: <Navigate to="/dashboard" replace />,
+    },
+    {
         // Redirect root URL (/) immediately to the dashboard path
         path: "/",
         element: <Navigate to="/dashboard" replace />,
