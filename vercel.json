@@ -2,10 +2,10 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://voucher-management-system-backend-production.up.railway.app/api/:path*"
+      "destination": "https://clms-9fyx.onrender.com/api/:path*"
     },
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

@@ -15,81 +15,40 @@ import IncomeReportPage from "../pages/dashboard/incomeReport/IncomeReportPage";
 import ExpenseReportPage from "../pages/dashboard/expenseReport/ExpenseReportPage";
 import GeneralSettingsPage from "../pages/dashboard/generalSettings/GeneralSettingsPage";
 
-const dashboardChildren = [
-    {
-        index: true,
-        Component: DashboardPage,
-    },
-    {
-        path: "accounts/income-vouchers",
-        Component: IncomeVouchersPage,
-    },
-    {
-        path: "accounts/expense-vouchers",
-        Component: ExpenseVouchersPage,
-    },
-    {
-        path: "do-letters",
-        Component: DoLettersPage,
-    },
-    {
-        path: "income-report",
-        Component: IncomeReportPage,
-    },
-    {
-        path: "expense-report",
-        Component: ExpenseReportPage,
-    },
-    {
-        path: "operators",
-        Component: OperatorsPage,
-    },
-    {
-        path: "general-settings",
-        Component: GeneralSettingsPage,
-    },
-    {
-        path: "profile",
-        Component: ProfilePage,
-    },
-    {
-        path: "*",
-        Component: DashboardNotFoundPage,
-    },
+const getDashboardChildren = () => [
+    { index: true, Component: DashboardPage },
+    { path: "accounts/income-vouchers", Component: IncomeVouchersPage },
+    { path: "accounts/expense-vouchers", Component: ExpenseVouchersPage },
+    { path: "do-letters", Component: DoLettersPage },
+    { path: "income-report", Component: IncomeReportPage },
+    { path: "expense-report", Component: ExpenseReportPage },
+    { path: "operators", Component: OperatorsPage },
+    { path: "general-settings", Component: GeneralSettingsPage },
+    { path: "profile", Component: ProfilePage },
+    { path: "*", Component: DashboardNotFoundPage },
 ];
 
-const protectedDashboard = (path: string) => ({
+const dashboardRoute = (path: string) => ({
     path,
     Component: DashboardLayout,
-    children: dashboardChildren,
+    children: getDashboardChildren(),
 });
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Navigate to="/admin" replace />,
-    },
+    // Main public entry point.
+    { path: "/", element: <Navigate to="/admin" replace /> },
+
+    // Login is only shown while the user is logged out.
     {
         Component: RedirectIfAuthenticated,
-        children: [
-            {
-                path: "/login",
-                Component: LoginPage,
-            },
-        ],
+        children: [{ path: "/login", Component: LoginPage }],
     },
+
+    // Both URLs are supported. /admin is the canonical admin URL.
     {
         Component: ProtectedRoute,
-        children: [
-            // /admin is the primary admin dashboard URL.
-            protectedDashboard("/admin"),
+        children: [dashboardRoute("/admin"), dashboardRoute("/dashboard")],
+    },
 
-            // Keep the old dashboard URLs working for existing bookmarks/links.
-            protectedDashboard("/dashboard"),
-        ],
-    },
-    {
-        path: "*",
-        Component: NotFoundPage,
-    },
+    { path: "*", Component: NotFoundPage },
 ]);
