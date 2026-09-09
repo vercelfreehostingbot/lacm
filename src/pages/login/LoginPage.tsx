@@ -33,7 +33,10 @@ export default function LoginPage() {
         try {
             await login({ email, password }).unwrap();
             const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
-            navigate(from ?? '/admin', { replace: true });
+            navigate(
+                from === '/admin' ? '/admin/dashboard' : (from ?? '/dashboard'),
+                { replace: true },
+            );
         } catch (err) {
             setFormError(getErrorMessage(err as never));
         }

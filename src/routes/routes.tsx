@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router";
+import { useAppSelector } from "../redux/app/hooks";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import LoginPage from "../pages/login/LoginPage";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -15,7 +16,7 @@ import IncomeReportPage from "../pages/dashboard/incomeReport/IncomeReportPage";
 import ExpenseReportPage from "../pages/dashboard/expenseReport/ExpenseReportPage";
 import GeneralSettingsPage from "../pages/dashboard/generalSettings/GeneralSettingsPage";
 
-const getDashboardChildren = () => [
+const dashboardChildren = [
     { index: true, Component: DashboardPage },
     { path: "accounts/income-vouchers", Component: IncomeVouchersPage },
     { path: "accounts/expense-vouchers", Component: ExpenseVouchersPage },
@@ -28,27 +29,52 @@ const getDashboardChildren = () => [
     { path: "*", Component: DashboardNotFoundPage },
 ];
 
-const dashboardRoute = (path: string) => ({
-    path,
-    Component: DashboardLayout,
-    children: getDashboardChildren(),
-});
+function AdminEntry() {
+    const { accessToken, user } = useAppSelector((state) => state.auth);
+
+    if (accessToken && user) {
+        return <Navigate to="/admin/dashboard" replace />;
+    }
+
+    // Stay on /admin and show the existing login form.
+    return <LoginPage />;
+}
 
 export const router = createBrowserRouter([
-    // Main public entry point.
-    { path: "/", element: <Navigate to="/admin" replace /> },
-
-    // Login is only shown while the user is logged out.
+    {
+        path: "/",
+        element: <Navigate to="/admin" replace />,
+    },
+    {
+        path: "/admin",
+        Component: AdminEntry,
+    },
     {
         Component: RedirectIfAuthenticated,
-        children: [{ path: "/login", Component: LoginPage }],
+        children: [
+            {
+                path: "/login",
+                Component: LoginPage,
+            },
+        ],
     },
-
-    // Both URLs are supported. /admin is the canonical admin URL.
     {
         Component: ProtectedRoute,
-        children: [dashboardRoute("/admin"), dashboardRoute("/dashboard")],
+        children: [
+            {
+                path: "/admin/dashboard",
+                Component: DashboardLayout,
+                children: dashboardChildren,
+            },
+            {
+                path: "/dashboard",
+                Component: DashboardLayout,
+                children: dashboardChildren,
+            },
+        ],
     },
-
-    { path: "*", Component: NotFoundPage },
+    {
+        path: "*",
+        Component: NotFoundPage,
+    },
 ]);
