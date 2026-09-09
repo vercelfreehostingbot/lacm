@@ -15,19 +15,61 @@ import IncomeReportPage from "../pages/dashboard/incomeReport/IncomeReportPage";
 import ExpenseReportPage from "../pages/dashboard/expenseReport/ExpenseReportPage";
 import GeneralSettingsPage from "../pages/dashboard/generalSettings/GeneralSettingsPage";
 
+const dashboardChildren = [
+    {
+        index: true,
+        Component: DashboardPage,
+    },
+    {
+        path: "accounts/income-vouchers",
+        Component: IncomeVouchersPage,
+    },
+    {
+        path: "accounts/expense-vouchers",
+        Component: ExpenseVouchersPage,
+    },
+    {
+        path: "do-letters",
+        Component: DoLettersPage,
+    },
+    {
+        path: "income-report",
+        Component: IncomeReportPage,
+    },
+    {
+        path: "expense-report",
+        Component: ExpenseReportPage,
+    },
+    {
+        path: "operators",
+        Component: OperatorsPage,
+    },
+    {
+        path: "general-settings",
+        Component: GeneralSettingsPage,
+    },
+    {
+        path: "profile",
+        Component: ProfilePage,
+    },
+    {
+        path: "*",
+        Component: DashboardNotFoundPage,
+    },
+];
+
+const protectedDashboard = (path: string) => ({
+    path,
+    Component: DashboardLayout,
+    children: dashboardChildren,
+});
+
 export const router = createBrowserRouter([
     {
-        path: "/admin",
-        element: <Navigate to="/dashboard" replace />,
-    },
-    {
-        // Redirect root URL (/) immediately to the dashboard path
         path: "/",
-        element: <Navigate to="/dashboard" replace />,
+        element: <Navigate to="/admin" replace />,
     },
     {
-        // If a valid session already exists, bounce away from /login
-        // instead of showing the form again.
         Component: RedirectIfAuthenticated,
         children: [
             {
@@ -37,60 +79,17 @@ export const router = createBrowserRouter([
         ],
     },
     {
-        // Guards everything below it — no dashboard route is reachable
-        // without a valid accessToken/user in Redux state.
         Component: ProtectedRoute,
         children: [
-            {
-                path: "/dashboard",
-                Component: DashboardLayout,
-                children: [
-                    {
-                        index: true,
-                        Component: DashboardPage
-                    },
-                    {
-                        path: "accounts/income-vouchers",
-                        Component: IncomeVouchersPage
-                    },
-                    {
-                        path: "accounts/expense-vouchers",
-                        Component: ExpenseVouchersPage
-                    },
-                    {
-                        path: "do-letters",
-                        Component: DoLettersPage
-                    },
-                    {
-                        path: "income-report",
-                        Component: IncomeReportPage
-                    },
-                    {
-                        path: "expense-report",
-                        Component: ExpenseReportPage
-                    },
-                    {
-                        path: "operators",
-                        Component: OperatorsPage
-                    },
-                    {
-                        path: "general-settings",
-                        Component: GeneralSettingsPage
-                    },
-                    {
-                        path: "profile",
-                        Component: ProfilePage
-                    },
-                    {
-                        path: "*",
-                        Component: DashboardNotFoundPage
-                    },
-                ]
-            },
+            // /admin is the primary admin dashboard URL.
+            protectedDashboard("/admin"),
+
+            // Keep the old dashboard URLs working for existing bookmarks/links.
+            protectedDashboard("/dashboard"),
         ],
     },
     {
         path: "*",
-        Component: NotFoundPage
+        Component: NotFoundPage,
     },
 ]);
