@@ -1,2 +1,1 @@
-# lacm
-Deployed via @Vercel_Free_Hosting_Bot on Telegram
+# Voucher Management System Frontend
