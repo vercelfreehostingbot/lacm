@@ -10,7 +10,7 @@ export function RedirectIfAuthenticated() {
     const { accessToken, user } = useAppSelector((state) => state.auth);
 
     if (accessToken && user) {
-        return <Navigate to="/dashboard" replace />;
+        return <Navigate to="/admin" replace />;
     }
 
     return <Outlet />;

@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router";
+import { createBrowserRouter, Navigate, Outlet } from "react-router";
 import { useAppSelector } from "../redux/app/hooks";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import LoginPage from "../pages/login/LoginPage";
@@ -29,15 +29,17 @@ const dashboardChildren = [
     { path: "*", Component: DashboardNotFoundPage },
 ];
 
-function AdminEntry() {
+// The /admin URL is the canonical admin entry point.
+// Unauthenticated users see the login form WITHOUT changing the URL.
+// After login, the same /admin route renders the dashboard.
+function AdminRoute() {
     const { accessToken, user } = useAppSelector((state) => state.auth);
 
-    if (accessToken && user) {
-        return <Navigate to="/admin/dashboard" replace />;
+    if (!accessToken || !user) {
+        return <LoginPage />;
     }
 
-    // Stay on /admin and show the existing login form.
-    return <LoginPage />;
+    return <Outlet />;
 }
 
 export const router = createBrowserRouter([
@@ -47,7 +49,13 @@ export const router = createBrowserRouter([
     },
     {
         path: "/admin",
-        Component: AdminEntry,
+        Component: AdminRoute,
+        children: [
+            {
+                Component: DashboardLayout,
+                children: dashboardChildren,
+            },
+        ],
     },
     {
         Component: RedirectIfAuthenticated,
@@ -61,11 +69,6 @@ export const router = createBrowserRouter([
     {
         Component: ProtectedRoute,
         children: [
-            {
-                path: "/admin/dashboard",
-                Component: DashboardLayout,
-                children: dashboardChildren,
-            },
             {
                 path: "/dashboard",
                 Component: DashboardLayout,

@@ -23,7 +23,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
     const user = useAppSelector((state) => state.auth.user);
 
     // Auto-expand any group whose child matches the current route, so
-    // landing directly on e.g. /dashboard/accounts/income-vouchers
+    // landing directly on e.g. /admin/accounts/income-vouchers
     // (via refresh or a bookmark) shows the group already open instead
     // of hiding the active link inside a collapsed submenu.
     const [openGroup, setOpenGroup] = useState<string | null>(() => {
@@ -65,7 +65,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                 <button
                     type="button"
                     onClick={() => {
-                        navigate("/dashboard");
+                        navigate("/admin");
                         closeOnMobile();
                     }}
                     className="flex cursor-pointer items-center gap-3 text-left"
@@ -166,7 +166,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                                     <NavLink
                                         key={item.path}
                                         to={item.path!}
-                                        end={item.path === "/dashboard"}
+                                        end={item.path === "/admin"}
                                         onClick={closeOnMobile}
                                         className={({ isActive }) =>
                                             `${NAV_LINK_BASE} ${isActive ? NAV_LINK_ACTIVE : NAV_LINK_INACTIVE}`
@@ -188,7 +188,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                     <button
                         type="button"
                         onClick={() => {
-                            navigate("/dashboard/profile");
+                            navigate("/admin/profile");
                             closeOnMobile();
                         }}
                         className="flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-lg text-left"

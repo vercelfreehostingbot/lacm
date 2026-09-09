@@ -108,7 +108,7 @@ export function NotificationBell() {
               {incomeCount > 0 && (
                 <button
                   type="button"
-                  onClick={() => goTo("/dashboard/accounts/income-vouchers?status=PENDING")}
+                  onClick={() => goTo("/admin/accounts/income-vouchers?status=PENDING")}
                   className="flex cursor-pointer items-center gap-3 rounded-[9px] px-3 py-2.5 text-left transition hover:bg-hover-bg"
                 >
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-warning-soft-bg text-warning-soft-text">
@@ -126,7 +126,7 @@ export function NotificationBell() {
               {expenseCount > 0 && (
                 <button
                   type="button"
-                  onClick={() => goTo("/dashboard/accounts/expense-vouchers?status=PENDING")}
+                  onClick={() => goTo("/admin/accounts/expense-vouchers?status=PENDING")}
                   className="flex cursor-pointer items-center gap-3 rounded-[9px] px-3 py-2.5 text-left transition hover:bg-hover-bg"
                 >
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-warning-soft-bg text-warning-soft-text">
